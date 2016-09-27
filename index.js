@@ -1,6 +1,7 @@
 'use strict';
 
 var extend = require('extend-shallow');
+var not = require('regex-not');
 
 /**
  * Session cache
@@ -88,7 +89,7 @@ function makeRe(pattern, options) {
 
   try {
     if (opts.negate || typeof opts.strictNegate === 'boolean') {
-      pattern = not(pattern, opts);
+      pattern = not.create(pattern, opts);
     }
     var str = open + '(?:' + pattern + ')' + close;
     var re = new RegExp(str, flags);
@@ -101,17 +102,6 @@ function makeRe(pattern, options) {
     if (opts.strictErrors !== false) throw err;
     return /.^/; //<= match nothing
   }
-}
-
-/**
- * Create a negation regex
- */
-
-function not(str, options) {
-  if (options.strictNegate === false) {
-    return '(?:(?!(?:' + str + ')).)*';
-  }
-  return '(?:(?!^(?:' + str + ')$).)*';
 }
 
 /**
