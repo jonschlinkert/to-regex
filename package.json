@@ -1,0 +1,65 @@
+{
+  "name": "to-regex",
+  "description": "Generate a regex from a string or array of strings.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/jonschlinkert/to-regex",
+  "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "repository": "jonschlinkert/to-regex",
+  "bugs": {
+    "url": "https://github.com/jonschlinkert/to-regex/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "extend-shallow": "^2.0.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-format-md": "^0.1.10",
+    "gulp-istanbul": "^1.1.1",
+    "gulp-mocha": "^3.0.1",
+    "mocha": "^3.0.2"
+  },
+  "keywords": [
+    "match",
+    "regex",
+    "regular expression",
+    "test",
+    "to"
+  ],
+  "verb": {
+    "related": {
+      "list": [
+        "to-regex-range",
+        "is-glob",
+        "has-glob",
+        "path-regex"
+      ]
+    },
+    "toc": false,
+    "layout": "default",
+    "tasks": [
+      "readme"
+    ],
+    "plugins": [
+      "gulp-format-md"
+    ],
+    "lint": {
+      "reflinks": true
+    },
+    "reflinks": [
+      "verb",
+      "verb-generate-readme"
+    ]
+  }
+}
