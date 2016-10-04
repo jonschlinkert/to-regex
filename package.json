@@ -1,7 +1,7 @@
 {
   "name": "to-regex",
   "description": "Generate a regex from a string or array of strings.",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "homepage": "https://github.com/jonschlinkert/to-regex",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/to-regex",
@@ -39,15 +39,9 @@
     "to"
   ],
   "verb": {
-    "related": {
-      "list": [
-        "to-regex-range",
-        "is-glob",
-        "has-glob",
-        "path-regex"
-      ]
+    "toc": {
+      "method": "preWrite"
     },
-    "toc": false,
     "layout": "default",
     "tasks": [
       "readme"
@@ -55,12 +49,20 @@
     "plugins": [
       "gulp-format-md"
     ],
-    "lint": {
-      "reflinks": true
+    "related": {
+      "list": [
+        "has-glob",
+        "is-glob",
+        "path-regex",
+        "to-regex-range"
+      ]
     },
     "reflinks": [
       "verb",
       "verb-generate-readme"
-    ]
+    ],
+    "lint": {
+      "reflinks": true
+    }
   }
 }
