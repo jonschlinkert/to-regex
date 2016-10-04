@@ -19,20 +19,19 @@ var cache = {};
  */
 
 module.exports = function(pattern, options) {
-  options = options || {};
-  if (Array.isArray(pattern)) {
-    if (options.wrap !== false) {
-      for (var i = 0; i < pattern.length; i++) {
-        var val = pattern[i];
-        if (val instanceof RegExp) {
-          val = val.source;
-        }
-        pattern[i] = '(?:' + val + ')';
-      }
-    }
-    pattern = pattern.join('|');
+  if (!Array.isArray(pattern)) {
+    return makeRe(pattern, options);
   }
-  return makeRe(pattern, options);
+
+  if (!options || (options && options.wrap !== false)) {
+    for (var i = 0; i < pattern.length; i++) {
+      var val = pattern[i];
+      if (val instanceof RegExp) val = val.source;
+      pattern[i] = '(?:' + val + ')';
+    }
+  }
+
+  return makeRe(pattern.join('|'), options);
 };
 
 /**
@@ -55,9 +54,9 @@ function makeRe(pattern, options) {
 
   var key = pattern;
   // do this before shallow cloning options, it's a lot faster
-  if (options && options.cache !== false) {
+  if (!options || (options && options.cache !== false)) {
     for (var prop in options) {
-      key += ':' + prop + ':' + String(options[prop]);
+      key += '; ' + prop + '=' + String(options[prop]);
     }
   }
 
@@ -81,8 +80,9 @@ function makeRe(pattern, options) {
 
   var open = opts.strictOpen !== false ? '^' : '';
   var close = opts.strictClose !== false ? '$' : '';
-
   var flags = opts.flags || '';
+  var regex;
+
   if (opts.nocase === true && !/i/.test(flags)) {
     flags += 'i';
   }
@@ -92,15 +92,35 @@ function makeRe(pattern, options) {
       pattern = not.create(pattern, opts);
     }
     var str = open + '(?:' + pattern + ')' + close;
-    var re = new RegExp(str, flags);
-    if (opts.cache !== false) {
-      re.cached = true;
-      cache[key] = re;
-    }
-    return re;
+    regex = new RegExp(str, flags);
   } catch (err) {
-    if (opts.strictErrors !== false) throw err;
-    return /.^/; //<= match nothing
+    if (opts.strictErrors !== false) {
+      err.key = key;
+      err.pattern = pattern;
+      err.originalOptions = options;
+      err.createdOptions = opts;
+      throw err;
+    }
+    regex = /.^/; //<= match nothing
+  }
+
+  cacheRegex(regex, key, pattern, opts);
+  return regex;
+}
+
+/**
+ * Cache generated regex. This can result in dramatic speed improvements
+ * and simplify debugging by adding options and pattern to the regex. It can be
+ * disabled by passing setting `options.cache` to false.
+ */
+
+function cacheRegex(regex, key, pattern, options) {
+  if (options.cache !== false) {
+    regex.cached = true;
+    regex.pattern = pattern;
+    regex.options = options;
+    regex.key = key;
+    cache[key] = regex;
   }
 }
 
