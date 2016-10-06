@@ -15,15 +15,11 @@ describe('to-regex', function() {
     });
 
     it('should create a strict regex from the given array of strings', function() {
-      assert.deepEqual(toRegex(['foo', 'bar']), /^(?:(?:foo)|(?:bar))$/);
+      assert.deepEqual(toRegex(['foo', 'bar']), /^(?:foo|bar)$/);
     });
 
     it('should create a regex from the a mixture of strings and regexes', function() {
-      assert.deepEqual(toRegex(['foo', /bar/, 'baz']), /^(?:(?:foo)|(?:bar)|(?:baz))$/);
-    });
-
-    it('should not wrap strings when `options.wrap` is false', function() {
-      assert.deepEqual(toRegex(['foo', 'bar'], {wrap: false}), /^(?:foo|bar)$/);
+      assert.deepEqual(toRegex(['foo', /bar/, 'baz']), /^(?:foo|\/bar\/|baz)$/);
     });
 
     it('should return a regex unchanged', function() {
@@ -60,7 +56,7 @@ describe('to-regex', function() {
 
     it('should create a negation regex for an array of strings', function() {
       var re = toRegex(['foo', 'bar'], {negate: true});
-      assert.deepEqual(re, /^(?:(?:(?!^(?:(?:foo)|(?:bar))$).)*)$/);
+      assert.deepEqual(re, /^(?:(?:(?!^(?:foo|bar)$).)*)$/);
       assert(!re.test('foo'));
       assert(!re.test('bar'));
       assert(re.test('foobar'));
@@ -69,7 +65,7 @@ describe('to-regex', function() {
 
     it('should create a loose negation regex for an array of strings', function() {
       var re = toRegex(['foo', 'bar'], {negate: true, contains: true});
-      assert.deepEqual(re, /^(?:(?:(?!(?:(?:foo)|(?:bar))).)*)$/);
+      assert.deepEqual(re, /^(?:(?:(?!(?:foo|bar)).)*)$/);
       assert(!re.test('foo'));
       assert(!re.test('bar'));
       assert(!re.test('foobar'));
