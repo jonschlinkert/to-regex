@@ -1,7 +1,7 @@
 {
   "name": "to-regex",
   "description": "Generate a regex from a string or array of strings.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "homepage": "https://github.com/jonschlinkert/to-regex",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/to-regex",
@@ -20,6 +20,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "define-property": "^0.2.5",
     "extend-shallow": "^2.0.1",
     "regex-not": "^0.1.1"
   },
