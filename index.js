@@ -2,6 +2,7 @@
 
 var extend = require('extend-shallow');
 var not = require('regex-not');
+var MAX_LENGTH = 1024 * 64;
 
 /**
  * Session cache
@@ -18,20 +19,11 @@ var cache = {};
  * @api public
  */
 
-module.exports = function(pattern, options) {
-  if (!Array.isArray(pattern)) {
-    return makeRe(pattern, options);
+module.exports = function(patterns, options) {
+  if (!Array.isArray(patterns)) {
+    return makeRe(patterns, options);
   }
-
-  if (!options || (options && options.wrap !== false)) {
-    for (var i = 0; i < pattern.length; i++) {
-      var val = pattern[i];
-      if (val instanceof RegExp) val = val.source;
-      pattern[i] = '(?:' + val + ')';
-    }
-  }
-
-  return makeRe(pattern.join('|'), options);
+  return makeRe(patterns.join('|'), options);
 };
 
 /**
@@ -52,16 +44,18 @@ function makeRe(pattern, options) {
     throw new TypeError('expected a string');
   }
 
+  if (pattern.length > MAX_LENGTH) {
+    throw new Error('expected pattern to be less than ' + MAX_LENGTH + ' characters');
+  }
+
   var key = pattern;
   // do this before shallow cloning options, it's a lot faster
   if (!options || (options && options.cache !== false)) {
-    for (var prop in options) {
-      key += '; ' + prop + '=' + String(options[prop]);
-    }
-  }
+    key = createKey(pattern, options);
 
-  if ((!options || (options && options.cache !== false)) && cache.hasOwnProperty(key)) {
-    return cache[key];
+    if (cache.hasOwnProperty(key)) {
+      return cache[key];
+    }
   }
 
   var opts = extend({}, options);
@@ -104,7 +98,9 @@ function makeRe(pattern, options) {
     regex = /.^/; //<= match nothing
   }
 
-  cacheRegex(regex, key, pattern, opts);
+  if (opts.cache !== false) {
+    cacheRegex(regex, key, pattern, opts);
+  }
   return regex;
 }
 
@@ -115,13 +111,28 @@ function makeRe(pattern, options) {
  */
 
 function cacheRegex(regex, key, pattern, options) {
-  if (options.cache !== false) {
-    regex.cached = true;
-    regex.pattern = pattern;
-    regex.options = options;
-    regex.key = key;
-    cache[key] = regex;
+  regex.cached = true;
+  regex.pattern = pattern;
+  regex.options = options;
+  regex.key = key;
+  cache[key] = regex;
+}
+
+/**
+ * Create the key to use for memoization. The key is generated
+ * by iterating over the options and concatenating key-value pairs
+ * to the pattern string.
+ */
+
+function createKey(pattern, options) {
+  if (!options) return pattern;
+  var key = pattern;
+  for (var prop in options) {
+    if (options.hasOwnProperty(prop)) {
+      key += ';' + prop + '=' + String(options[prop]);
+    }
   }
+  return key;
 }
 
 /**
