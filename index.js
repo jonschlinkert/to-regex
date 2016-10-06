@@ -1,5 +1,6 @@
 'use strict';
 
+var define = require('define-property');
 var extend = require('extend-shallow');
 var not = require('regex-not');
 var MAX_LENGTH = 1024 * 64;
@@ -111,10 +112,10 @@ function makeRe(pattern, options) {
  */
 
 function cacheRegex(regex, key, pattern, options) {
-  regex.cached = true;
-  regex.pattern = pattern;
-  regex.options = options;
-  regex.key = key;
+  define(regex, 'cached', true);
+  define(regex, 'pattern', pattern);
+  define(regex, 'options', options);
+  define(regex, 'key', key);
   cache[key] = regex;
 }
 
