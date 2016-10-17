@@ -99,7 +99,6 @@ function makeRe(pattern, options) {
 
     try {
       regex = new RegExp('^' + pattern.replace(/(\W)/g, '\\$1') + '$');
-      console.log(regex)
     } catch (err) {
       regex = /.^/; //<= match nothing
     }

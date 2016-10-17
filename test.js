@@ -31,7 +31,7 @@ describe('to-regex', function() {
     });
 
     it('should create a negation regex when `options.negate` is true', function() {
-      assert.deepEqual(toRegex('foo', {negate: true}), /^(?:(?:(?!^(?:foo)$).)*)$/);
+      assert.deepEqual(toRegex('foo', {negate: true}), /^(?:^(?:(?!^(?:foo)$).)+$)$/);
       assert.equal(toRegex('foo', {negate: true}).test('foo'), false);
       assert.equal(toRegex('foo', {negate: true}).test('bar'), true);
       assert.equal(toRegex('foo', {negate: true}).test('foobar'), true);
@@ -39,7 +39,7 @@ describe('to-regex', function() {
     });
 
     it('should create a loose negation regex when `options.strictNegate` is false', function() {
-      assert.deepEqual(toRegex('foo', {strictNegate: false}), /^(?:(?:(?!(?:foo)).)*)$/);
+      assert.deepEqual(toRegex('foo', {strictNegate: false}), /^(?:^(?:(?!(?:foo)).)+$)$/);
       assert.equal(toRegex('foo', {strictNegate: false}).test('foo'), false);
       assert.equal(toRegex('foo', {strictNegate: false}).test('bar'), true);
       assert.equal(toRegex('foo', {strictNegate: false}).test('foobar'), false);
@@ -47,7 +47,7 @@ describe('to-regex', function() {
     });
 
     it('should create a loose negation regex when `options.contains` and `options.negate` are true', function() {
-      assert.deepEqual(toRegex('foo', {contains: true, negate: true}), /^(?:(?:(?!(?:foo)).)*)$/);
+      assert.deepEqual(toRegex('foo', {contains: true, negate: true}), /^(?:^(?:(?!(?:foo)).)+$)$/);
       assert.equal(toRegex('foo', {contains: true, negate: true}).test('foo'), false);
       assert.equal(toRegex('foo', {contains: true, negate: true}).test('bar'), true);
       assert.equal(toRegex('foo', {contains: true, negate: true}).test('foobar'), false);
@@ -56,7 +56,7 @@ describe('to-regex', function() {
 
     it('should create a negation regex for an array of strings', function() {
       var re = toRegex(['foo', 'bar'], {negate: true});
-      assert.deepEqual(re, /^(?:(?:(?!^(?:foo|bar)$).)*)$/);
+      assert.deepEqual(re, /^(?:^(?:(?!^(?:foo|bar)$).)+$)$/);
       assert(!re.test('foo'));
       assert(!re.test('bar'));
       assert(re.test('foobar'));
@@ -65,7 +65,7 @@ describe('to-regex', function() {
 
     it('should create a loose negation regex for an array of strings', function() {
       var re = toRegex(['foo', 'bar'], {negate: true, contains: true});
-      assert.deepEqual(re, /^(?:(?:(?!(?:foo|bar)).)*)$/);
+      assert.deepEqual(re, /^(?:^(?:(?!(?:foo|bar)).)+$)$/);
       assert(!re.test('foo'));
       assert(!re.test('bar'));
       assert(!re.test('foobar'));
@@ -153,7 +153,7 @@ describe('to-regex', function() {
     });
 
     it('should create a negation regex when `options.negate` is true', function() {
-      assert.deepEqual(toRegex.makeRe('foo', {negate: true}), /^(?:(?:(?!^(?:foo)$).)*)$/);
+      assert.deepEqual(toRegex.makeRe('foo', {negate: true}), /^(?:^(?:(?!^(?:foo)$).)+$)$/);
       assert.equal(toRegex.makeRe('foo', {negate: true}).test('foo'), false);
       assert.equal(toRegex.makeRe('foo', {negate: true}).test('bar'), true);
       assert.equal(toRegex.makeRe('foo', {negate: true}).test('foobar'), true);
@@ -161,7 +161,7 @@ describe('to-regex', function() {
     });
 
     it('should create a loose negation regex when `options.strictNegate` is false', function() {
-      assert.deepEqual(toRegex.makeRe('foo', {strictNegate: false}), /^(?:(?:(?!(?:foo)).)*)$/);
+      assert.deepEqual(toRegex.makeRe('foo', {strictNegate: false}), /^(?:^(?:(?!(?:foo)).)+$)$/);
       assert.equal(toRegex.makeRe('foo', {strictNegate: false}).test('foo'), false);
       assert.equal(toRegex.makeRe('foo', {strictNegate: false}).test('bar'), true);
       assert.equal(toRegex.makeRe('foo', {strictNegate: false}).test('foobar'), false);
@@ -169,7 +169,7 @@ describe('to-regex', function() {
     });
 
     it('should create a loose negation regex when `options.contains` and `options.negate` are true', function() {
-      assert.deepEqual(toRegex.makeRe('foo', {contains: true, negate: true}), /^(?:(?:(?!(?:foo)).)*)$/);
+      assert.deepEqual(toRegex.makeRe('foo', {contains: true, negate: true}), /^(?:^(?:(?!(?:foo)).)+$)$/);
       assert.equal(toRegex.makeRe('foo', {contains: true, negate: true}).test('foo'), false);
       assert.equal(toRegex.makeRe('foo', {contains: true, negate: true}).test('bar'), true);
       assert.equal(toRegex.makeRe('foo', {contains: true, negate: true}).test('foobar'), false);
