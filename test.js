@@ -119,9 +119,9 @@ describe('to-regex', function() {
       }
     });
 
-    it('should throw an error on invalid regexes when `options.strictErrors` is not false', function(cb) {
+    it('should throw an error on invalid regexes when `options.strictErrors` is true', function(cb) {
       try {
-        toRegex('*');
+        toRegex('*', {strictErrors: true});
         cb(new Error('expected an error'));
       } catch (err) {
         assert(err);
@@ -130,8 +130,8 @@ describe('to-regex', function() {
       }
     });
 
-    it('should return an "unmatchable" regex for invalid regexes when `options.strictErrors` is false', function() {
-      assert.deepEqual(toRegex('*', {strictErrors: false}), /.^/);
+    it('should escape non-word characters when invalid regexes are created', function() {
+      assert.deepEqual(toRegex('*'), /^\*$/);
     });
   });
 

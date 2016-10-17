@@ -89,14 +89,20 @@ function makeRe(pattern, options) {
     var str = open + '(?:' + pattern + ')' + close;
     regex = new RegExp(str, flags);
   } catch (err) {
-    if (opts.strictErrors !== false) {
+    if (opts.strictErrors === true) {
       err.key = key;
       err.pattern = pattern;
       err.originalOptions = options;
       err.createdOptions = opts;
       throw err;
     }
-    regex = /.^/; //<= match nothing
+
+    try {
+      regex = new RegExp('^' + pattern.replace(/(\W)/g, '\\$1') + '$');
+      console.log(regex)
+    } catch (err) {
+      regex = /.^/; //<= match nothing
+    }
   }
 
   if (opts.cache !== false) {
