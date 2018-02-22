@@ -20,8 +20,8 @@
     "test": "mocha"
   },
   "dependencies": {
-    "define-property": "^0.2.5",
-    "extend-shallow": "^2.0.1",
+    "define-property": "^2.0.2",
+    "extend-shallow": "^3.0.2",
     "regex-not": "^1.0.0"
   },
   "devDependencies": {
