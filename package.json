@@ -20,17 +20,14 @@
     "test": "mocha"
   },
   "dependencies": {
-    "define-property": "^0.2.5",
-    "extend-shallow": "^2.0.1",
-    "regex-not": "^1.0.0"
+    "define-property": "^2.0.2",
+    "extend-shallow": "^3.0.2",
+    "regex-not": "^1.0.2",
+    "safe-regex": "^1.1.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1",
-    "gulp-format-md": "^0.1.10",
-    "gulp-istanbul": "^1.1.1",
-    "gulp-mocha": "^3.0.1",
-    "mocha": "^3.0.2"
+    "gulp-format-md": "^1.0.0",
+    "mocha": "^3.5.3"
   },
   "keywords": [
     "match",
@@ -58,10 +55,6 @@
         "to-regex-range"
       ]
     },
-    "reflinks": [
-      "verb",
-      "verb-generate-readme"
-    ],
     "lint": {
       "reflinks": true
     }

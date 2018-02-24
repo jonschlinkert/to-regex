@@ -10,6 +10,12 @@ describe('to-regex', function() {
       assert.equal(typeof toRegex, 'function');
     });
 
+    it('should throw when a potentially unsafe regex is passed', function() {
+      assert.throws(function() {
+        toRegex('(x+)*', { safe: true });
+      }, /potentially unsafe/);
+    });
+
     it('should create a strict regex from the given string', function() {
       assert.deepEqual(toRegex('foo'), /^(?:foo)$/);
     });
