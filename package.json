@@ -1,7 +1,7 @@
 {
   "name": "to-regex",
   "description": "Generate a regex from a string or array of strings.",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "homepage": "https://github.com/jonschlinkert/to-regex",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/to-regex",
