@@ -23,7 +23,7 @@
     "define-property": "^2.0.2",
     "extend-shallow": "^3.0.2",
     "regex-not": "^1.0.2",
-    "safe-regex": "^1.1.0"
+    "safe-regex": "^2.0.0"
   },
   "devDependencies": {
     "gulp-format-md": "^1.0.0",
